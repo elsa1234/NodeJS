@@ -1,0 +1,14 @@
+var net = require('net');
+var client = net.connect({port:3000});
+
+client.on('data',function(data){
+  var message = JSON.parse(data);
+  if(message.type === 'watching')
+      console.log('Now watching : ' + message.file);
+  else if (message.type === 'changed') {
+        console.log('File : ' + message.file + "' changed");
+  }
+  else {
+    throw Error('unrecognized message type : ' + message.type);
+  }
+});
